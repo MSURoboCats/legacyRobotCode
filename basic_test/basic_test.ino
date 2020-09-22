@@ -16,7 +16,8 @@ int power = 1750;
 int powerup = 1250;
 int pins[8] = {2, 3, 4, 5, 6, 7, 8, 9};
 
-void setup() {
+void setup() {  //looks like this attaches the servos with a delay, the comment below this was original, maybe initializes something. -ZW
+    
     //Serial.begin(9600);
     delay(3000);
     servo2.attach(2);
@@ -30,7 +31,7 @@ void setup() {
     neut();
 }
 
-void loop() {
+void loop() {  //seems to be a method that tests all of the different ways the robot could move. -ZW
     forward();
     neut();
     dive();
@@ -44,6 +45,9 @@ void loop() {
     neut();
     delay(3000);
 }
+
+//below here looks to be some more methods defining movment of the sub, all of them seem to be self 
+//explanatory except neut(), maybe is neutral? -ZW
 
 void surface() {
     servo6.writeMicroseconds(power);
