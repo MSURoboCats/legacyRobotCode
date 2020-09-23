@@ -1,3 +1,7 @@
+%This is the code for the camera that is written in MATLAB. -ZW
+%it initializes the videowriter and sets the fps and what not. -ZW
+%this code seems usable if we could only get it to run somehow, maybe scott would know more -ZW
+
 vid = videoinput('linuxvideo',1);
 aviObject = VideoWriter('myVideo.avi');   % Create a new AVI file
 set(vid, 'FramesPerTrigger', 30);
@@ -20,5 +24,7 @@ for iFrame = 1:100                    % Capture 100 frames
 end
 close(aviObject);         % Close the AVI file
 stop(vid);
+
+%this probably clears the data from the video input once it has finishes capturing -ZW
 
 flushdata(vid);
