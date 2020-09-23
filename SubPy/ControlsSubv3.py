@@ -4,7 +4,7 @@
 
 import sys, math, time, serial, re, numpy as np
 
-
+#seems to initialize 2 different ports and set the sleep time of the sub -ZW
 
 port = '/dev/ttyUSB0' # Intel Nuc
 port2 = '/dev/ttyACM1' #Arduino
@@ -15,6 +15,8 @@ time.sleep(2)
 
 ser = serial.Serial(port, baud)
 ser.flush()
+
+#Initializes all the different manuver variables and defines a function to be used with them -ZW
 
 pitch = 0
 roll = 0
@@ -56,6 +58,7 @@ def get_imu_data(command):
 
 yaw = 0
 
+#This function gets the data from the sensors to calibrate the roll, pitch, and a yaw to keep the sub oriented -ZW
 
 def updateSensors():
     mag = [] # w, x, y, z
@@ -88,7 +91,7 @@ deptherror = depthin - depth
 
 
 
-
+#Looks to be a test to see what depth the sub is at -ZW
 
 
 def depthFunc():
@@ -103,7 +106,7 @@ def depthFunc():
 
 print(depthFunc())
 
-
+#Below are functions which allow pitch, roll yaw for navigation -ZW
 
 def pitchFunc():
     pitcherrorold = 0 - pitchold
@@ -167,6 +170,7 @@ def yawFunc():
 
 print(yawFunc())
 
+#Here's the throttle control that uses what looks like 7 or 8 different speed settings, this might be useful to take a look at -ZW
 
 #Rudimentary Throttle Control
 
