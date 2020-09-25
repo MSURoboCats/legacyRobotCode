@@ -1,4 +1,6 @@
+#This code processes what the camera and sonar maybe? take in -ZW
 
+#Butter is the scipy package that allows most of the calculations to be done -ZW
 import numpy as np
 from scipy.signal import butter,filtfilt# Filter requirements.
 import sys, math, time, serial, re, numpy as np
@@ -13,9 +15,9 @@ nyq = 0.5*fs
 n = int(T * fs) # total number of samples
 
 ser = serial.Serial(port, baud)
-ser.flush()
+ser.flush() #Flushes the store data from ser and wipes it i think -ZW
 
-def quaternion_to_euler(data):
+def quaternion_to_euler(data): #guessing this takes into account the 3 types of motion and does some calculations based on 4 parts of data -ZW
     yz2 = 1 - (2 * (data[2]**2 + data[3]**2))
     pitch_p = 2 * (data[1] * data[2] - data[1] * data[3])
     roll_p = (2 * (data[0] * data[1] + data[2] * data[3])) / yz2
@@ -24,6 +26,7 @@ def quaternion_to_euler(data):
     pitch_p = 1 if pitch_p > 1 else pitch_p
     pitch_p = -1 if pitch_p < -1 else pitch_p
 
+    #sets the roll, pitch, and yaw by dividing the tangent of _p by pi -ZW
     roll = math.atan(roll_p) / math.pi
     pitch = math.asin(pitch_p)  / math.pi
     yaw = math.atan(yaw_p) / math.pi
@@ -35,6 +38,8 @@ def quaternion_to_euler(data):
     return [roll, pitch, yaw]
 
 
+
+#gets the internal measurment and write based off of 
 
 def get_imu_data(command):
     global ser
@@ -49,7 +54,7 @@ if __name__ == "__main__":
     
     gyro = [] # x, y, z - angular velocity
     accel = [] # x, y, z - linear acceleration
-    mag = [] # w, x, y, z
+    mag = [] # w, x, y, z -?? not sure what this is, magnetometer maybe -ZW
 
     t = 0
     with open('IMU_DATA.csv', 'w') as IMU_DATA:
