@@ -1,0 +1,12 @@
+
+
+hex 10400 alternateX 32 ee!	// write the 32 bytes at alternateX to EEPROM address 10400 hex
+hex 10420 alternateY 32 ee!	// write the 32 bytes at alternateY to EEPROM address 10420 hex
+hex 10440 alternateZ 32 ee!	// write the 32 bytes at alternateZ to EEPROM address 10440 hex
+
+// 2000 delay
+// reset
+
+hex 10400 storeCalX 32 ee@
+hex 10420 storeCalY 32 ee@
+hex 10440 storeCalZ 32 ee@
