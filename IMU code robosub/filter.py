@@ -1,4 +1,6 @@
+#This code processes what the camera and sonar maybe? take in -ZW
 
+#Butter is the scipy package that allows most of the calculations to be done -ZW
 import numpy as np
 from scipy.signal import butter,filtfilt# Filter requirements.
 import sys, math, time, serial, re, numpy as np
@@ -13,9 +15,9 @@ nyq = 0.5*fs
 n = int(T * fs) # total number of samples
 
 ser = serial.Serial(port, baud)
-ser.flush()
+ser.flush() #Flushes the store data from ser and wipes it i think -ZW
 
-def quaternion_to_euler(data):
+def quaternion_to_euler(data): #guessing this takes into account the 3 types of motion and does some calculations based on 4 parts of data -ZW
     yz2 = 1 - (2 * (data[2]**2 + data[3]**2))
     pitch_p = 2 * (data[1] * data[2] - data[1] * data[3])
     roll_p = (2 * (data[0] * data[1] + data[2] * data[3])) / yz2
@@ -24,6 +26,7 @@ def quaternion_to_euler(data):
     pitch_p = 1 if pitch_p > 1 else pitch_p
     pitch_p = -1 if pitch_p < -1 else pitch_p
 
+    #sets the roll, pitch, and yaw by dividing the tangent of _p by pi -ZW
     roll = math.atan(roll_p) / math.pi
     pitch = math.asin(pitch_p)  / math.pi
     yaw = math.atan(yaw_p) / math.pi
@@ -35,6 +38,8 @@ def quaternion_to_euler(data):
     return [roll, pitch, yaw]
 
 
+
+#gets the internal measurment and write based off of 
 
 def get_imu_data(command):
     global ser
@@ -49,10 +54,11 @@ if __name__ == "__main__":
     
     gyro = [] # x, y, z - angular velocity
     accel = [] # x, y, z - linear acceleration
-    mag = [] # w, x, y, z
+    mag = [] # w, x, y, z -?? not sure what this is, magnetometer maybe -ZW
 
     t = 0
-    with open('IMU_DATA.csv', 'w') as IMU_DATA:
+    with open('IMU_DATA.csv', 'w') as IMU_DATA:  #this takes in a .csv file and used a csv writer that seperates by ',' and '"'.  -ZW
+						 #It looks like it does something with the environmental stats like temp and mag. -ZW
     	IMU_writer = csv.writer(IMU_DATA, delimiter = ',', quotechar='"',quoting=csv.QUOTE_MINIMAL)   
     	while t <= 60.1:
         	magnetometer = get_imu_data("$PSPA,QUAT\r\n")
@@ -72,7 +78,9 @@ if __name__ == "__main__":
 		Accel2 = accelerometer[2] * 9.80665 / 1000
 # sin wave
                 data = (t, Accel0)
-                def butter_lowpass_filter(data, cutoff, fs, order):
+                def butter_lowpass_filter(data, cutoff, fs, order):  #this is a butterwoth filter. The Butterworth filter is a type of signal processing filter-
+								     #designed to have a frequency response as flat as possible in the passband.
+								     #It is also referred to as a maximally flat magnitude filter. -ZW
                     normal_cutoff = cutoff / nyq
                     # Get the filter coefficients 
                     b, a = butter(order, normal_cutoff, btype='low', analog=False)
@@ -85,6 +93,7 @@ if __name__ == "__main__":
 		#compass3 = quaternion_to_euler(magnetometer[3])
 		compass = quaternion_to_euler(mag)
 
+		#All the commented code below looks like different test that can be run to return data, might be helpful to try and run some of these to see. -ZW
     
         	#print("Data at Time: %s" % t)
         	#print("Magnetometer Quaternion Data: %s" % mag)
@@ -99,7 +108,8 @@ if __name__ == "__main__":
         	t += 0.1
         	time.sleep(0.1)
 
-
+#Down here a figure is traced. I'm not too sure exactly what this is drawing out but I think it is two seperate figures. One might be an unfiltered signal
+# and the other might be the actual filtered and usable signal . -ZW
 
 fig = go.Figure()
 fig.add_trace(go.Scatter(
