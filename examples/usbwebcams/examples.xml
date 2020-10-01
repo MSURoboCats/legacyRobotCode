@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<demos>
+  <demoitem>
+    <source>AcquireOneImageFrameFromWebcamExample</source>
+    <type>live</type>
+    <extension>mlx</extension>
+    <metadata>ex07749488</metadata>
+    <sandboxPublished reasons="hardware"/>
+    <product>matlab</product>
+    <product>usbwebcams</product>
+  </demoitem>
+  <demoitem>
+    <source>PreviewWebcamImageExample</source>
+    <type>live</type>
+    <extension>mlx</extension>
+    <metadata>ex26894213</metadata>
+    <sandboxPublished reasons="hardware not-runnable"/>
+    <product>matlab</product>
+    <product>usbwebcams</product>
+  </demoitem>
+  <demoitem>
+    <source>DisplayMultipleExternalWebcamsExample</source>
+    <type>live</type>
+    <extension>mlx</extension>
+    <metadata>ex32352815</metadata>
+    <sandboxPublished reasons="hardware"/>
+    <product>matlab</product>
+    <product>usbwebcams</product>
+  </demoitem>
+  <demoitem>
+    <source>PreviewWebcamImageWithCustomWindowExample</source>
+    <type>live</type>
+    <extension>mlx</extension>
+    <metadata>ex32357874</metadata>
+    <sandboxPublished reasons="hardware not-runnable"/>
+    <product>matlab</product>
+    <product>usbwebcams</product>
+  </demoitem>
+  <demoitem>
+    <source>LoggingVideoToDiskExample</source>
+    <type>live</type>
+    <extension>mlx</extension>
+    <metadata>ex46417987</metadata>
+    <sandboxPublished reasons="hardware not-runnable"/>
+    <product>matlab</product>
+    <product>usbwebcams</product>
+  </demoitem>
+  <demoitem>
+    <source>CloseWebcamPreviewExample</source>
+    <type>live</type>
+    <extension>mlx</extension>
+    <metadata>ex46556189</metadata>
+    <sandboxPublished reasons="hardware"/>
+    <product>matlab</product>
+    <product>usbwebcams</product>
+  </demoitem>
+  <demoitem>
+    <source>CreateAWebcamObjectUsingCameraNameExample</source>
+    <type>live</type>
+    <extension>mlx</extension>
+    <metadata>ex49982932</metadata>
+    <sandboxPublished reasons="hardware"/>
+    <product>matlab</product>
+    <product>usbwebcams</product>
+  </demoitem>
+  <demoitem>
+    <source>DisplaySingleWebcamExample</source>
+    <type>live</type>
+    <extension>mlx</extension>
+    <metadata>ex54619306</metadata>
+    <sandboxPublished reasons="hardware"/>
+    <product>matlab</product>
+    <product>usbwebcams</product>
+  </demoitem>
+  <demoitem>
+    <source>CreateAWebcamObjectUsingDeviceNumberAsAnIndexExample</source>
+    <type>live</type>
+    <extension>mlx</extension>
+    <metadata>ex57744305</metadata>
+    <sandboxPublished reasons="hardware"/>
+    <product>matlab</product>
+    <product>usbwebcams</product>
+  </demoitem>
+  <demoitem>
+    <source>CreateAWebcamObjectUsingNoArgumentsExample</source>
+    <type>live</type>
+    <extension>mlx</extension>
+    <metadata>ex86235452</metadata>
+    <sandboxPublished reasons="hardware"/>
+    <product>matlab</product>
+    <product>usbwebcams</product>
+  </demoitem>
+  <demoitem>
+    <source>AcquiringASingleImageInALoopExample</source>
+    <type>live</type>
+    <extension>mlx</extension>
+    <metadata>ex90241570</metadata>
+    <sandboxPublished reasons="hardware not-runnable"/>
+    <product>matlab</product>
+    <product>usbwebcams</product>
+  </demoitem>
+</demos>
