@@ -57,7 +57,8 @@ if __name__ == "__main__":
     mag = [] # w, x, y, z -?? not sure what this is, magnetometer maybe -ZW
 
     t = 0
-    with open('IMU_DATA.csv', 'w') as IMU_DATA:
+    with open('IMU_DATA.csv', 'w') as IMU_DATA:  #this takes in a .csv file and used a csv writer that seperates by ',' and '"'.  -ZW
+						 #It looks like it does something with the environmental stats like temp and mag. -ZW
     	IMU_writer = csv.writer(IMU_DATA, delimiter = ',', quotechar='"',quoting=csv.QUOTE_MINIMAL)   
     	while t <= 60.1:
         	magnetometer = get_imu_data("$PSPA,QUAT\r\n")
@@ -77,7 +78,9 @@ if __name__ == "__main__":
 		Accel2 = accelerometer[2] * 9.80665 / 1000
 # sin wave
                 data = (t, Accel0)
-                def butter_lowpass_filter(data, cutoff, fs, order):
+                def butter_lowpass_filter(data, cutoff, fs, order):  #this is a butterwoth filter. The Butterworth filter is a type of signal processing filter-
+								     #designed to have a frequency response as flat as possible in the passband.
+								     #It is also referred to as a maximally flat magnitude filter. -ZW
                     normal_cutoff = cutoff / nyq
                     # Get the filter coefficients 
                     b, a = butter(order, normal_cutoff, btype='low', analog=False)
@@ -90,6 +93,7 @@ if __name__ == "__main__":
 		#compass3 = quaternion_to_euler(magnetometer[3])
 		compass = quaternion_to_euler(mag)
 
+		#All the commented code below looks like different test that can be run to return data, might be helpful to try and run some of these to see. -ZW
     
         	#print("Data at Time: %s" % t)
         	#print("Magnetometer Quaternion Data: %s" % mag)
@@ -104,7 +108,8 @@ if __name__ == "__main__":
         	t += 0.1
         	time.sleep(0.1)
 
-
+#Down here a figure is traced. I'm not too sure exactly what this is drawing out but I think it is two seperate figures. One might be an unfiltered signal
+# and the other might be the actual filtered and usable signal . -ZW
 
 fig = go.Figure()
 fig.add_trace(go.Scatter(
