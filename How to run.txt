@@ -1,0 +1,28 @@
+Appendix D: ReadMe Document for next year’s group
+How to Run Sub
+1.	Upload TestComms.ino onto the Arduino
+2.	Seal Sub and connect tether
+3.	SSH into the Sub using the tether
+4.	Switch on Arduino using the Switch on the Front of the Sub
+5.	Run ControlsSubv3.py using python ControlsSubv3.py  (make sure to cd to correct directory which is PythonTest)
+6.	Should prompt user for certain inputs (Delta – update rate, Depth – in meters, Yaw – in degrees from starting point, X and Y in meters (these need to be fixed before using, can be commented out in Python Code).
+7.	Sub will run for approximately 30 seconds and prompt for new commands
+8.	To store data, use the csv storage in the main loop
+
+Common Problems 
+Code runs but sub doesn’t move:
+1.	Check that the Arduino is powered by the switch on front of sub
+2.	Check that the Depth sensor is initializing in the Arduino code
+2a.  Check all wire connections between sensor and Arduino
+2b.  Make sure the logic conversion board between sensor and Arduino is functioning properly
+2c.  Check that the Arduino and NUC are communicating correctly
+
+Can't SSH into sub
+1.	Check tether connection and wires (we had issues with the tether and had to re-solder some wires)
+3.	Password for NUC is Rob0sub!
+Camera control
+1.	Open MATLAB
+2.	The file CameraCode.m should be in the working directory on the left
+1.	Open the file
+2.	Click Run
+Note: make sure the videoinput is ‘linuxvideo’ on the sub or you’ll get an error. 
