@@ -10,7 +10,7 @@ import csv
 #   4: OBJECT_4
 #   5: OBJECT_5
 CLASS_PRIORITY = [1,2,3,4,5]
-FILENAME = r"C:\Users\smith\RoboCats\robotCode\RAVN\OILT Output Frames\CurrentFrame1.csv"
+FILENAME = r"robotCode\RAVN\OILT Output Frames\CurrentFrame1.csv"
 FRAME_PIXELS_X = 1280
 FRAME_PIXELS_Y = 720
 
