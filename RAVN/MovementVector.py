@@ -48,16 +48,24 @@ def get_movement_vector(target_object):
 
     if target_object.cx > FRAME_PIXELS_X/2:
         movement_vector[0] = 1
+        print("ROTATE RIGHT")
     elif target_object.cx < FRAME_PIXELS_X/2:
         movement_vector[0] = -1
+        print("ROTATE LEFT")
+    else:
+        print("DO NOT ROTATE")
 
     if target_object.cy > FRAME_PIXELS_Y/2:
         movement_vector[1] = 1
+        print("ASCEND")
     elif target_object.cy < FRAME_PIXELS_Y/2:
         movement_vector[1] = -1
+        print("DESCEND")
+    else:
+        print("DO NOT CHANGE DEPTH")
+
     return movement_vector
 
 
 frame_objects = get_objects()
 movement_vector = get_movement_vector(frame_objects[0])
-print(movement_vector)
