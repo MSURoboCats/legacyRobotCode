@@ -60,21 +60,21 @@ def acquire_target(objects_list):
 def get_movement_vector(target_object):
     rotation_component = 0
     depth_component = 0
-    if target_object.cx > FRAME_PIXELS_X/2:
+    if target_object.cx > ((FRAME_PIXELS_X/2) + 25):
         rotation_component = 1
-        print("ROTATE RIGHT")
-    elif target_object.cx < FRAME_PIXELS_X/2:
-        rotation_component = -1
         print("ROTATE LEFT")
+    elif target_object.cx < ((FRAME_PIXELS_X/2) - 25)/2:
+        rotation_component = -1
+        print("ROTATE RIGHT")
     else:
         print("DO NOT ROTATE")
 
-    if target_object.cy > FRAME_PIXELS_Y/2:
+    if target_object.cy > ((FRAME_PIXELS_Y/2) + 25):
         depth_component = 1
-        print("ASCEND")
-    elif target_object.cy < FRAME_PIXELS_Y/2:
-        depth_component = -1
         print("DESCEND")
+    elif target_object.cy < ((FRAME_PIXELS_X/2) - 25):
+        depth_component = -1
+        print("ASCEND")
     else:
         print("DO NOT CHANGE DEPTH")
 
