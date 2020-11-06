@@ -11,7 +11,8 @@ import csv
 #   5: OBJECT_5
 CLASS_PRIORITY = [1,2,3,4,5]
 #CLASS_PRIORITY = [5,4,3,2,1]
-FILENAME = r"robotCode\RAVN\OILT Output Frames\CurrentFrame1.csv"
+#FILENAME = r"robotCode\RAVN\Demo\Situation3.csv"
+FILENAME = r"robotCode\RAVN\Demo\MoveDemo3.csv"
 FRAME_PIXELS_X = 1280
 FRAME_PIXELS_Y = 720
 
@@ -62,19 +63,19 @@ def get_movement_vector(target_object):
     depth_component = 0
     if target_object.cx > ((FRAME_PIXELS_X/2) + 25):
         rotation_component = 1
-        print("ROTATE LEFT")
-    elif target_object.cx < ((FRAME_PIXELS_X/2) - 25)/2:
-        rotation_component = -1
         print("ROTATE RIGHT")
+    elif target_object.cx < ((FRAME_PIXELS_X/2) - 25):
+        rotation_component = -1
+        print("ROTATE LEFT")
     else:
         print("DO NOT ROTATE")
 
     if target_object.cy > ((FRAME_PIXELS_Y/2) + 25):
         depth_component = 1
-        print("DESCEND")
-    elif target_object.cy < ((FRAME_PIXELS_X/2) - 25):
-        depth_component = -1
         print("ASCEND")
+    elif target_object.cy < ((FRAME_PIXELS_Y/2) - 25):
+        depth_component = -1
+        print("DESCEND")
     else:
         print("DO NOT CHANGE DEPTH")
 
