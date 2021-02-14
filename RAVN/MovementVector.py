@@ -63,6 +63,9 @@ def get_movement_vector(target_object):
     depth_component = 0
     if target_object.cx > ((FRAME_PIXELS_X/2) + 25):
         rotation_component = 1
+        print("ROTATE LEFT")
+    elif target_object.cx < ((FRAME_PIXELS_X/2) - 25):
+        rotation_component = -1
         print("ROTATE RIGHT")
     elif target_object.cx < ((FRAME_PIXELS_X/2) - 25):
         rotation_component = -1
