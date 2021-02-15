@@ -1,21 +1,20 @@
 # Capstone team RAVN: 2020 - 2021
 # Members: Scott Smith, Kyle Rust, Tristan Stevens
 
-import csv
+from enum import Enum
 
-#   Object numbers --> names
-#   1: OBJECT_1
-#   2: OBJECT_2
-#   3: OBJECT_3
-#   4: OBJECT_4
-#   5: OBJECT_5
+import motor_system as ms
+import sensory_system as ss
+
 CLASS_PRIORITY = [1,2,3,4,5]
-#CLASS_PRIORITY = [5,4,3,2,1]
-#FILENAME = r"robotCode\RAVN\Demo\Situation3.csv"
-FILENAME = r"robotCode\RAVN\Demo\MoveDemo3.csv"
-FRAME_PIXELS_X = 1280
-FRAME_PIXELS_Y = 720
 
+investigated_objects = []
+novel_objects = []
+
+class State(Enum):
+    SEARCH = 1
+    INVESTIGATE = 2
+    TASK_COMPLETED = 3
 
 class VisualObject:
     def __init__(self, cx, cy, dx, dy, type):
@@ -29,16 +28,6 @@ class VisualObject:
 
     def get_type(self):
         return self.type
-
-
-def get_objects():
-    objects_list = []
-    with open(FILENAME, 'r') as frame:
-        frame_reader = csv.reader(frame)
-        for row in frame_reader:
-            objects_list.append(VisualObject(row[0], row[1], row[2], row[3], row[4]))
-    return objects_list
-
 
 def acquire_target(objects_list):
     target = None
@@ -55,28 +44,24 @@ def acquire_target(objects_list):
     print("Acquired a target of type " + str(target.type))
     return target
 
-
 # Returns movement vector in form [rotation_component, depth_component] where each value is in [-1, 0, 1].
 # This will tell qualitatively which direcion the sub needs to move along each axis
 def get_movement_vector(target_object):
     rotation_component = 0
     depth_component = 0
-    if target_object.cx > ((FRAME_PIXELS_X/2) + 25):
+    if target_object.cx > ((ss.FRAME_PIXELS_X/2) + 25):
         rotation_component = 1
-        print("ROTATE LEFT")
-    elif target_object.cx < ((FRAME_PIXELS_X/2) - 25):
-        rotation_component = -1
         print("ROTATE RIGHT")
-    elif target_object.cx < ((FRAME_PIXELS_X/2) - 25):
+    elif target_object.cx < ((ss.FRAME_PIXELS_X/2) - 25):
         rotation_component = -1
         print("ROTATE LEFT")
     else:
         print("DO NOT ROTATE")
 
-    if target_object.cy > ((FRAME_PIXELS_Y/2) + 25):
+    if target_object.cy > ((ss.FRAME_PIXELS_Y/2) + 25):
         depth_component = 1
         print("ASCEND")
-    elif target_object.cy < ((FRAME_PIXELS_Y/2) - 25):
+    elif target_object.cy < ((ss.FRAME_PIXELS_Y/2) - 25):
         depth_component = -1
         print("DESCEND")
     else:
@@ -84,7 +69,26 @@ def get_movement_vector(target_object):
 
     return [rotation_component, depth_component]
 
+def update_known_objects(object_list):
+    for item in object_list:
+        if item.type not in investigated_objects:
+            if item.type not in seen_objects:
+                # TO DO: mark heading object was seen at
+                novel_objects.append(item)
+        
 
-frame_objects = get_objects()
-target_object = acquire_target(frame_objects)
-movement_vector = get_movement_vector(target_object)
+def search():
+    if vehicle_state != State.SEARCH:
+        vehicle_state = State.SEARCH
+        novel_objects = []
+        # TO DO: mark vehicle current heading to know when turned 360 deg
+        # TO DO: make vehicle start to yaw to search for objects
+    objects_in_view = ss.get_objects()
+    update_known_objects(objects_in_view)
+    # TO DO: if vehicle 
+    if len(novel_objects) == 0:
+        return None
+
+if __name__ == "__main__":
+    vehicle_state = None
+
