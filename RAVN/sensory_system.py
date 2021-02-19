@@ -3,10 +3,11 @@
 
 from enum import Enum
 
+import csv
 import central_nervous_system as cns
-import motor_system as ms
+#import motor_system as ms
 
-INPUT_FILE = r"robotCode\RAVN\Demo\MoveDemo3.csv"
+INPUT_FILE = "c:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/Demo/Test/CurrentFrame2.csv"
 FRAME_PIXELS_X = 1280
 FRAME_PIXELS_Y = 720
 
@@ -22,5 +23,5 @@ def get_objects():
     with open(INPUT_FILE, 'r') as frame:
         frame_reader = csv.reader(frame)
         for row in frame_reader:
-            objects_list.append(VisualObject(row[0], row[1], row[2], row[3], row[4]))
+            objects_list.append(cns.VisualObject(row[0], row[1], row[2], row[3], row[4]))
     return objects_list

@@ -3,13 +3,14 @@
 
 from enum import Enum
 
-import motor_system as ms
+#import motor_system as ms
 import sensory_system as ss
 
 CLASS_PRIORITY = [1,2,3,4,5]
 
 investigated_objects = []
 novel_objects = []
+seen_objects = []
 
 class State(Enum):
     SEARCH = 1
@@ -91,4 +92,7 @@ def search():
 
 if __name__ == "__main__":
     vehicle_state = None
-
+    update_known_objects(ss.get_objects())
+    for i in novel_objects:
+        print(i.get_type)
+    print(vehicle_state)
