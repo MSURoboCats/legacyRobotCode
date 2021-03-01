@@ -6,10 +6,9 @@ from enum import Enum
 import motor_system as ms
 import sensory_system as ss
 
-CLASS_PRIORITY = [1,2,3,4,5]
-
 investigated_objects = []
 novel_objects = []
+relevant_types = [1, 2, 3, 4, 5]
 
 class State(Enum):
     SEARCH = 1
@@ -31,7 +30,7 @@ class VisualObject:
 
 def acquire_target(objects_list):
     target = None
-    for object_type in CLASS_PRIORITY:
+    for object_type in relevant_types:
         if target != None:
             break
         for item in objects_list:
@@ -72,7 +71,7 @@ def get_movement_vector(target_object):
 def update_known_objects(object_list):
     for item in object_list:
         if item.type not in investigated_objects:
-            if item.type not in seen_objects:
+            if item.type not in relevant_types:
                 # TO DO: mark heading object was seen at
                 novel_objects.append(item)
         
