@@ -10,6 +10,7 @@ import motor_system as ms
 INPUT_FILE = r"robotCode\RAVN\Demo\MoveDemo3.csv"
 FRAME_PIXELS_X = 1280
 FRAME_PIXELS_Y = 720
+FRAME_AREA = FRAME_PIXELS_X * FRAME_PIXELS_Y
 
 def get_objects():
     objects_list = []
