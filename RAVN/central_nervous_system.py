@@ -3,7 +3,7 @@
 
 from enum import Enum
 
-#import motor_system as ms
+import motor_system as ms
 import sensory_system as ss
 
 CLASS_PRIORITY = [1,2,3,4,5]
@@ -75,24 +75,16 @@ def update_known_objects(object_list):
         if item.type not in investigated_objects:
             if item.type not in seen_objects:
                 # TO DO: mark heading object was seen at
-                novel_objects.append(item)
-        
+                novel_objects.append(item)       
 
-def search():
-    if vehicle_state != State.SEARCH:
-        vehicle_state = State.SEARCH
-        novel_objects = []
-        # TO DO: mark vehicle current heading to know when turned 360 deg
-        # TO DO: make vehicle start to yaw to search for objects
-    objects_in_view = ss.get_objects()
-    update_known_objects(objects_in_view)
-    # TO DO: if vehicle 
-    if len(novel_objects) == 0:
-        return None
+def search(object_list):
+    if completed_rotation():                            # check if the rotation has been completed
+        for k in range(len(CLASS_PRIORITY)):            # iterate through class priority array
+            for item in object_list:                    # iterate through the object list
+                if item.type == CLASS_PRIORITY[k-1]:    # check if the object in class priority list is contained in the object list
+                    return item                         # if it is found return it
+    else:
+        ms.yawFunc()                                    # if the rotation is not complete, keep spinning
 
 if __name__ == "__main__":
     vehicle_state = None
-    update_known_objects(ss.get_objects())
-    for i in novel_objects:
-        print(i.get_type)
-    print(vehicle_state)
