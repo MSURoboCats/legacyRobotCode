@@ -75,19 +75,17 @@ def update_known_objects(object_list):
 
 def search(object_list):
     while(vehicle_state == State.SEARCH):
-        for k in range(len(relevant_types)):
-            if item.type == relevant_types[0]:
-                relevant_types.remove(item.type)   
-                return item.heading, item.type 
-            else:                                       
+        if item.type == relevant_types[0]:
+            relevant_types.remove(item.type)   
+            return item.heading, item.type 
+        else:  
+            for k in range(len(relevant_types)):           
                 for item in object_list:                    
                     if item.type == relevant_types[k-1]:
                         relevant_types.remove(item.type)    
                         return item.heading, item.type
                     else:
-                        return None                        
-    else:
-        ms.yawFunc()                                    
+                        return None                                                            
 
 # target_info shoud be in the form [heading, type]
 def investigate(target_info):
