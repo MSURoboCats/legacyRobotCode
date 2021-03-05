@@ -1,6 +1,7 @@
 # Capstone team RAVN: 2020 - 2021
 # Members: Scott Smith, Kyle Rust, Tristan Stevens
 
+import csv
 from enum import Enum
 
 import csv
@@ -10,13 +11,7 @@ import central_nervous_system as cns
 INPUT_FILE = "c:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/Demo/Test/CurrentFrame2.csv"
 FRAME_PIXELS_X = 1280
 FRAME_PIXELS_Y = 720
-
-class ObjectType(Enum):
-    OBJECT_1 = 1
-    OBJECT_2 = 2
-    OBJECT_3 = 3
-    OBJECT_4 = 4
-    OBJECT_5 = 5
+FRAME_AREA = FRAME_PIXELS_X * FRAME_PIXELS_Y
 
 def get_objects():
     objects_list = []

@@ -6,11 +6,13 @@ from enum import Enum
 import motor_system as ms
 import sensory_system as ss
 
-CLASS_PRIORITY = [1,2,3,4,5]
-
 investigated_objects = []
 novel_objects = []
+<<<<<<< HEAD
 seen_objects = []
+=======
+relevant_types = [1, 2, 3, 4, 5]
+>>>>>>> 76ca9fd6553a632fdf958d45823e762f606f9fec
 
 class State(Enum):
     SEARCH = 1
@@ -30,22 +32,20 @@ class VisualObject:
     def get_type(self):
         return self.type
 
-def acquire_target(objects_list):
-    target = None
-    for object_type in CLASS_PRIORITY:
-        if target != None:
-            break
-        for item in objects_list:
-            if item.type == object_type:
-                if target == None:
-                    target = item
-                else:
-                    if item.bb_area > target.bb_area:
-                        target = item
-    print("Acquired a target of type " + str(target.type))
-    return target
+# target_info shoud be in the form: [heading, type]
+def acquire_target(target_info):
+    # desired_heading = target_info[0]
+    target_type = target_info[1]
+    # TO DO: Attain desired heading with function to be made in motor_system.py
+    objects_in_frame = ss.get_objects()
+    # Verify that we can see the object we were looking for
+    for item in objects_in_frame:
+        if item.type == target_type:
+            return item
+    print("Failed to locate target object")
+    return None
 
-# Returns movement vector in form [rotation_component, depth_component] where each value is in [-1, 0, 1].
+# Returns movement vector in form: [rotation_component, depth_component] where each value is in [-1, 0, 1].
 # This will tell qualitatively which direcion the sub needs to move along each axis
 def get_movement_vector(target_object):
     rotation_component = 0
@@ -73,8 +73,9 @@ def get_movement_vector(target_object):
 def update_known_objects(object_list):
     for item in object_list:
         if item.type not in investigated_objects:
-            if item.type not in seen_objects:
+            if item.type not in relevant_types:
                 # TO DO: mark heading object was seen at
+<<<<<<< HEAD
                 novel_objects.append(item)       
 
 def search(object_list):
@@ -85,6 +86,43 @@ def search(object_list):
                     return item                         # if it is found return it
     else:
         ms.yawFunc()                                    # if the rotation is not complete, keep spinning
+=======
+                novel_objects.append(item)
+        
+def search():
+    if vehicle_state != State.SEARCH:
+        vehicle_state = State.SEARCH
+        novel_objects = []
+        # TO DO: mark vehicle current heading to know when turned 360 deg
+        # TO DO: make vehicle start to yaw to search for objects
+    objects_in_view = ss.get_objects()
+    update_known_objects(objects_in_view)
+    # TO DO: if vehicle 
+    if len(novel_objects) == 0:
+        return None
+>>>>>>> 76ca9fd6553a632fdf958d45823e762f606f9fec
+
+# target_info shoud be in the form [heading, type]
+def investigate(target_info):
+    target_object = acquire_target(target_info)
+    while (target_object.bb_area < ss.FRAME_AREA):
+        get_movement_vector(target_object)
+        # TO DO: develop ability to actually move the sub to the target
+    vehicle_state = State.SEARCH
+
+def enact_state(argument):
+    switcher = {
+        State.SEARCH: search,
+        State.INVESTIGATE: investigate
+    }
+    action = switcher.get(argument, lambda: "Invalid state")
+    action()
 
 if __name__ == "__main__":
     vehicle_state = None
+<<<<<<< HEAD
+=======
+    while vehicle_state != State.TASK_COMPLETED:
+        enact_state(vehicle_state)
+    print("All tasks completed")
+>>>>>>> 76ca9fd6553a632fdf958d45823e762f606f9fec
