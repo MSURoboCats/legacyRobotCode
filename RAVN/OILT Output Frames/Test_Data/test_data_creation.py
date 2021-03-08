@@ -23,13 +23,33 @@ def list_A(tot_objects, num_file):
                     highest_index = j
         current_view[i,4] = obj_type
         classes.remove(obj_type)
-    np.savetxt("/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/CurrentFile" + str(num_file) +".csv",current_view,delimiter=",")
-    file1 = open("/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/ListA_ans.txt", "a") 
+    np.savetxt("/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List A/CurrentFile" + str(num_file) +".csv",current_view,delimiter=",")
+    file1 = open("/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List A/ListA_ans.txt", "a") 
     L = str(highest_priority) + "\n"
     file1.writelines(L) 
     file1.close()
+
+def list_B(num_file):
+    centroid = np.array([rd.randint(0,1280), rd.randint(0,720)])
+    if centroid[0] >= 576 and centroid[0] <= 704:
+        directionX = "Forward, "
+    elif centroid[0] < 576:
+        directionX = "Left, "
+    else:
+        directionX = "Right, "
+    if centroid[0] >= 324 and centroid[0] <= 396:
+        directionY = "Forward"
+    elif centroid[0] < 324:
+        directionY = "Descend"
+    else:
+        directionY = "Ascend"
+    np.savetxt("/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List B/CurrentFile" + str(num_file) +".csv",centroid,delimiter=",")
+    file1 = open("/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List B/ListB_ans.txt", "a") 
+    L = directionX + directionY + "\n"
+    file1.writelines(L) 
+    file1.close()   
 if __name__ == "__main__":
     for i in range(10):
         list_A(MAX_OBJECTS,i)
-
+        list_B(i)
         
