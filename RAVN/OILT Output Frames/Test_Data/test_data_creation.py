@@ -47,9 +47,38 @@ def list_B(num_file):
     file1 = open("/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List B/ListB_ans.txt", "a") 
     L = directionX + directionY + "\n"
     file1.writelines(L) 
-    file1.close()   
+    file1.close()  
+def list_C(tot_objects,num_file): 
+    x = rd.randint(3,tot_objects)
+    y = rd.randint(1,x)
+    highest_priority_obj = 999
+    highest_index = 999
+    classes = [*range(1,tot_objects+1)]
+    current_view = np.zeros([x,2])
+    for i in range(x):
+        obj_type = rd.choice(classes)
+        current_view[i,0] = obj_type
+        classes.remove(obj_type)
+    classes = [*range(1,tot_objects+1)]
+    for j in range(y):
+        obj_type = rd.choice(classes)
+        current_view[j,1] = obj_type
+        classes.remove(obj_type)
+    seen_list = current_view[0:y,1].tolist()
+    print(seen_list)
+    in_view_list = current_view[:,0].tolist()
+    for a in range(len(in_view_list)):
+        if in_view_list[a] not in seen_list and CLASS_PRIORITY.index(in_view_list[a]) < highest_index:
+            highest_priority_obj = in_view_list[a]
+            highest_index = a
+    if highest_priority_obj == 999:
+        highest_priority_obj = "Search"
+    np.savetxt("/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List C/CurrentFile" + str(num_file) +".csv",current_view,delimiter=",")
+    file1 = open("/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List C/ListC_ans.txt", "a") 
+    L = str(highest_priority_obj) + "\n"
+    file1.writelines(L) 
+    file1.close() 
 if __name__ == "__main__":
     for i in range(10):
-        list_A(MAX_OBJECTS,i)
-        list_B(i)
+        list_C(MAX_OBJECTS,i)
         
