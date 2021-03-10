@@ -1,10 +1,10 @@
+Right, Ascend
+Left, Descend
+Right, Ascend
 Left, Ascend
 Left, Descend
+Left, Ascend
 Right, Ascend
-Right, Ascend
-Right, Ascend
-Right, Ascend
+Forward, Ascend
+Left, Ascend
 Left, Descend
-Forward, Ascend
-Forward, Ascend
-Right, Ascend
