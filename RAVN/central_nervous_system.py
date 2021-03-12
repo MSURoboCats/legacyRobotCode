@@ -42,16 +42,16 @@ def acquire_target(object_list):
                 if item.type == relevant_types[k]:
                     return item                 
 
-# Returns movement vector in form: [rotation_component, depth_component] where each value is in [-1, 0, 1].
+# Returns movement vector in form: [yaw_component, depth_component] where each value is in [-1, 0, 1].
 # This will tell qualitatively which direcion the sub needs to move along each axis
 def get_movement_vector(target_object):
-    rotation_component = 0
+    yaw_component = 0
     depth_component = 0
     if target_object.cx > ((ss.FRAME_PIXELS_X/2) + 25):
-        rotation_component = 1
+        yaw_component = (target_object.cx - ss.FRAME_PIXELS_X/2) * (ss.CAMERA_X_FOV_DEGREES / ss.FRAME_PIXELS_X)
         print("ROTATE RIGHT")
     elif target_object.cx < ((ss.FRAME_PIXELS_X/2) - 25):
-        rotation_component = -1
+        yaw_component = (target_object.cx - ss.FRAME_PIXELS_X/2) * (ss.CAMERA_X_FOV_DEGREES / ss.FRAME_PIXELS_X)
         print("ROTATE LEFT")
     else:
         print("DO NOT ROTATE")
@@ -64,8 +64,10 @@ def get_movement_vector(target_object):
         print("DESCEND")
     else:
         print("DO NOT CHANGE DEPTH")
+    
+    ms.throttle_out(depth_component, yaw_component)
 
-    return [rotation_component, depth_component]
+    return [yaw_component, depth_component]
 
 def update_known_objects(object_list):
     for item in object_list:
