@@ -84,8 +84,7 @@ def search(object_list):
                     if item.type == relevant_types[k-1]:
                         relevant_types.remove(item.type)    
                         return item.heading, item.type
-                    else:
-                        return None                                                            
+            return None                                                            
 
 # target_info shoud be in the form [heading, type]
 def investigate(target_info):
