@@ -93,7 +93,7 @@ def list_D(num_tests):
     #---------------------------------------------------------------
     # Make "ListD" folder to place data into
     #---------------------------------------------------------------
-    filename = "./ListD/"
+    filename = "/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/ListD/"
     if not os.path.exists(os.path.dirname(filename)):
         try:
             os.makedirs(os.path.dirname(filename))
@@ -184,7 +184,7 @@ def list_E(num_tests):
     #---------------------------------------------------------------
     # Make "ListE" folder to place data into
     #---------------------------------------------------------------
-    filename = "./ListE/"
+    filename = "/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/ListE/"
     if not os.path.exists(os.path.dirname(filename)):
         try:
             os.makedirs(os.path.dirname(filename))
@@ -263,10 +263,9 @@ def list_E(num_tests):
         g.close()
 
 if __name__ == "__main__":
-    for i in range(10):
+    for i in range(100):
         list_A(MAX_OBJECTS,i)
         list_B(i)
         list_C(MAX_OBJECTS,i)
-    for j in range(5):
-        list_D(j)
-        list_E(j)
+    list_D(50)
+    list_E(50)
