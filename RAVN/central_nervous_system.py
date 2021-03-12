@@ -71,19 +71,20 @@ def update_known_objects(object_list):
         if item.type not in investigated_objects:
             if item.type not in relevant_types:
                 # TO DO: mark heading object was seen at
-                novel_objects.append(item)
-        
-def search():
-    if vehicle_state != State.SEARCH:
-        vehicle_state = State.SEARCH
-        novel_objects = []
-        # TO DO: mark vehicle current heading to know when turned 360 deg
-        # TO DO: make vehicle start to yaw to search for objects
-    objects_in_view = ss.get_objects()
-    update_known_objects(objects_in_view)
-    # TO DO: if vehicle 
-    if len(novel_objects) == 0:
-        return None
+                novel_objects.append(item)       
+
+def search(object_list):
+    while(vehicle_state == State.SEARCH):
+        if item.type == relevant_types[0]:
+            relevant_types.remove(item.type)   
+            return item.heading, item.type 
+        else:  
+            for k in range(len(relevant_types)):           
+                for item in object_list:                    
+                    if item.type == relevant_types[k-1]:
+                        relevant_types.remove(item.type)    
+                        return item.heading, item.type
+            return None                                                            
 
 # target_info shoud be in the form [heading, type]
 def investigate(target_info):

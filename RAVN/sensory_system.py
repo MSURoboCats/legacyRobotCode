@@ -4,10 +4,11 @@
 import csv
 from enum import Enum
 
+import csv
 import central_nervous_system as cns
-import motor_system as ms
+#import motor_system as ms
 
-INPUT_FILE = r"robotCode\RAVN\Demo\MoveDemo3.csv"
+INPUT_FILE = "c:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/Demo/Test/CurrentFrame2.csv"
 FRAME_PIXELS_X = 1280
 FRAME_PIXELS_Y = 720
 FRAME_AREA = FRAME_PIXELS_X * FRAME_PIXELS_Y
