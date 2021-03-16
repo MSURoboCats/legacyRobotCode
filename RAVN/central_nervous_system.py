@@ -3,30 +3,35 @@
 
 from enum import Enum
 
-import motor_system as ms
+#import motor_system as ms
 import sensory_system as ss
 
 investigated_objects = []
 novel_objects = []
-relevant_types = [1, 2, 3, 4, 5]
+relevant_types = [1, 3 , 4 ,5 ,2 ,6]
 
 class State(Enum):
     SEARCH = 1
     INVESTIGATE = 2
     TASK_COMPLETED = 3
 
+vehicle_state = State.SEARCH
+
 class VisualObject:
     def __init__(self, cx, cy, dx, dy, type):
-        self.cx = int(cx)
-        self.cy = int(cy)
-        self.dx = int(dx)
-        self.dy = int(dy)
-        self.type = int(type)
+        self.cx = float(cx)
+        self.cy = float(cy)
+        self.dx = float(dx)
+        self.dy = float(dy)
+        self.type = float(type)
 
         self.bb_area = self.dx * self.dy
 
     def get_type(self):
         return self.type
+
+    def __repr__(self):
+        return "% f" % self.type
 
 # target_info shoud be in the form: [heading, type]
 def acquire_target(target_info):
@@ -74,18 +79,20 @@ def update_known_objects(object_list):
                 novel_objects.append(item)       
 
 def search(object_list):
+    highest_priority = None
     while(vehicle_state == State.SEARCH):
-        if item.type == relevant_types[0]:
-            relevant_types.remove(item.type)   
-            return item.heading, item.type 
+        if object_list == None:
+            return None
+        elif object_list[0].type == relevant_types[0]:
+            relevant_types.remove(object_list[0].type)   
+            return object_list[0].type 
         else:  
-            for k in range(len(relevant_types)):           
+            for k in range(len(relevant_types)):       
                 for item in object_list:                    
-                    if item.type == relevant_types[k-1]:
-                        relevant_types.remove(item.type)    
-                        return item.heading, item.type
-            return None                                                            
-
+                    if item.type == relevant_types[k]:
+                        relevant_types.remove(item.type)
+                        return item.type                                                         
+            return None
 # target_info shoud be in the form [heading, type]
 def investigate(target_info):
     target_object = acquire_target(target_info)
