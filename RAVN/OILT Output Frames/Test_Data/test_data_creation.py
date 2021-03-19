@@ -263,9 +263,9 @@ def list_E(num_tests):
         g.close()
 
 if __name__ == "__main__":
-    for i in range(100):
-        list_A(MAX_OBJECTS,i)
-        list_B(i)
-        list_C(MAX_OBJECTS,i)
+    # for i in range(100):
+    #     list_A(MAX_OBJECTS,i)
+    #     list_B(i)
+    #     list_C(MAX_OBJECTS,i)
     list_D(50)
     list_E(50)
