@@ -68,7 +68,7 @@ def test3_2_1():
                     file1.writelines(L)
                     cs.target_object = None
             else:
-                cs.target_object = cs.acquire_target()
+                cs.target_object = cs.acquire_target(objects_in_frame)
                 if cs.target_object:
                     pass
                 else:
@@ -83,7 +83,7 @@ def test3_2_1():
             while cs.relevant_types:
                 cs.objects_in_frame = ss.get_objects().copy()
                 if cs.target_object:
-                    if cs.check_target_in_frame():
+                    if cs.check_target_in_frame(objects_in_frame):
                         if cs.check_investigated():
                             cs.object_priority.remove(cs.target_object.type)
                             L = "(Actually Investigated) Chosen Object Type: " + str(cs.target_object.type) + "\r"
@@ -99,7 +99,7 @@ def test3_2_1():
                         file1.writelines(L)
                         cs.target_object = None
                 else:
-                    cs.target_object = cs.acquire_target()
+                    cs.target_object = cs.acquire_target(objects_in_frame)
                     if cs.target_object:
                         pass
                     else:
@@ -116,11 +116,85 @@ def test3_2_1():
     file1.writelines("------------------------------------------------------\r")
     file1.writelines(str(tests_passed) + " of " + str(test_amount) + " tests passed.\r")
     file1.close()
-
+def test3():
+    file1 = open("/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/ListE/ResultsE.txt", "w")
+    tests_passed = 0
+    test_amount = 50
+    for i in range(test_amount):
+        file1.writelines("#### Test " + str(i) + " ####\r")
+        ss.INPUT_FILE = "/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/ListE/CurrentFrame" + str(i) + ".csv"
+        objects_in_frame = ss.get_objects().copy()
+        cs.target_object = None
         
+        file1.writelines("# CurrentFrame" + str(i) + ".csv\r")
+
+        while cs.relevant_types:
+            objects_in_frame = ss.get_objects().copy()
+            if cs.target_object:
+                if cs.check_target_in_frame(objects_in_frame):
+                    if cs.check_investigated():
+                        cs.relevant_types.remove(cs.target_object.type)
+                        L = "(Actually Investigated) Chosen Object Type: " + str(cs.target_object.type) + "\r"
+                        file1.writelines(L)
+                        cs.target_object = None
+                    else:
+                        cs.relevant_types.remove(cs.target_object.type) #REMOVE IN ACTUAL OPERATION
+                        L = "Chosen Object Type: " + str(cs.target_object.type) + "\r"
+                        file1.writelines(L)
+                        cs.target_object = None #REMOVE IN ACTUAL OPERATION
+                else:
+                    L = "Chosen Object of type " + str(cs.target_object.type) + " has been lost.\r"
+                    file1.writelines(L)
+                    cs.target_object = None
+            else:
+                cs.target_object = cs.acquire_target(objects_in_frame)
+                if cs.target_object:
+                    pass
+                else:
+                    L = "Searching...\r\r"
+                    file1.writelines(L)
+                    break
+                
+        if cs.relevant_types:
+            ss.INPUT_FILE = "/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/ListE/NextFrame" + str(i) + ".csv"
+            file1.writelines("# NextFrame" + str(i) + ".csv\r")
+
+            while cs.relevant_types:
+                objects_in_frame = ss.get_objects().copy()
+                if cs.target_object:
+                    if cs.check_target_in_frame(objects_in_frame):
+                        if cs.check_investigated():
+                            cs.relevant_types.remove(cs.target_object.type)
+                            L = "(Actually Investigated) Chosen Object Type: " + str(cs.target_object.type) + "\r"
+                            file1.writelines(L)
+                            cs.target_object = None
+                        else:
+                            cs.relevant_types.remove(cs.target_object.type) #REMOVE IN ACTUAL OPERATION
+                            L = "Chosen Object Type: " + str(cs.target_object.type) + "\r"
+                            file1.writelines(L)
+                            cs.target_object = None #REMOVE IN ACTUAL OPERATION
+                    else:
+                        L = "Chosen Object of type " + str(cs.target_object.type) + " has been lost.\r"
+                        file1.writelines(L)
+                        cs.target_object = None
+                else:
+                    cs.target_object = cs.acquire_target(objects_in_frame)
+                    if cs.target_object:
+                        pass
+                    else:
+                        L = "Searching...\r\r"
+                        tests_passed += 1
+                        file1.writelines(L)
+                        break
+                
+        else:
+            tests_passed += 1
+            file1.writelines("All objects are investigated. Program exited.\r")
+            file1.writelines("\r")
+        print(i)
 if __name__ == '__main__':
     # test_1_1_1()
     # test1_2_1()
-
-    test1()
+    # test1()
     # test3_2_1()
+    test3()

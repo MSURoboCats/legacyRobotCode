@@ -124,7 +124,7 @@ def enact_state(argument):
     action = switcher.get(argument, lambda: "Invalid state")
     action()
 
-def check_target_in_frame():     
+def check_target_in_frame(object_list):     
     for item in objects_in_frame:                    
         if item.type == target_object.type:
             return True
