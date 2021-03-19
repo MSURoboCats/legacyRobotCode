@@ -9,6 +9,8 @@ import sensory_system as ss
 investigated_objects = []
 novel_objects = []
 relevant_types = [1, 3 , 4 ,5 ,2 ,6]
+target_object = None
+objects_in_frame = []
 
 class State(Enum):
     SEARCH = 1
@@ -34,17 +36,11 @@ class VisualObject:
         return "% f" % self.type
 
 # target_info shoud be in the form: [heading, type]
-def acquire_target(target_info):
-    # desired_heading = target_info[0]
-    target_type = target_info[1]
-    # TO DO: Attain desired heading with function to be made in motor_system.py
-    objects_in_frame = ss.get_objects()
-    # Verify that we can see the object we were looking for
-    for item in objects_in_frame:
-        if item.type == target_type:
-            return item
-    print("Failed to locate target object")
-    return None
+def acquire_target(object_list):
+    for k in range(len(relevant_types)):       
+            for item in object_list:                    
+                if item.type == relevant_types[k]:
+                    return item                 
 
 # Returns movement vector in form: [rotation_component, depth_component] where each value is in [-1, 0, 1].
 # This will tell qualitatively which direcion the sub needs to move along each axis
@@ -79,21 +75,40 @@ def update_known_objects(object_list):
                 novel_objects.append(item)       
 
 def search(object_list):
-    highest_priority = None
-    while(vehicle_state == State.SEARCH):
-        if object_list == None:
-            return None
-        elif object_list[0].type == relevant_types[0]:
-            relevant_types.remove(object_list[0].type)   
-            return object_list[0].type 
-        else:  
-            for k in range(len(relevant_types)):       
-                for item in object_list:                    
-                    if item.type == relevant_types[k]:
-                        relevant_types.remove(item.type)
-                        return item.type                                                         
-            return None
-# target_info shoud be in the form [heading, type]
+    target_object = None
+    while relevant_types:
+        # print("Getting objects from CSV")
+        frame_objects = ss.get_objects()
+        if target_object:
+            # print("Target object already exists")
+            if check_target_in_frame():
+                # print("Target is in frame")
+                if check_investigated():
+                    # print("Marking object as investigated")
+                    relevant_types.remove(target_object.type)
+                    target_object = None
+                else:
+                    #print("Target is not yet investigated")
+                    # get_movement_vector(target_object)
+                    pass
+                return target_object.type
+            else:
+                # print("Target is NOT in frame -- Lost target object")
+                target_object = None
+        else:
+            # print("Target object doesn't already exist - Aquiring Target")
+            target_object = acquire_target(object_list)
+            if target_object:
+                # print("Successfully aquired target")
+                # get_movement_vector(target_object)
+                pass
+            else:
+                # print("No potential target -- entering search state")
+                # search()
+                target_object = None
+            return target_object.type
+        # print("")
+
 def investigate(target_info):
     target_object = acquire_target(target_info)
     while (target_object.bb_area < ss.FRAME_AREA):
@@ -108,6 +123,18 @@ def enact_state(argument):
     }
     action = switcher.get(argument, lambda: "Invalid state")
     action()
+
+def check_target_in_frame():     
+    for item in objects_in_frame:                    
+        if item.type == target_object.type:
+            return True
+    return False
+
+def check_investigated():
+    if target_object.dx > (ss.FRAME_PIXELS_X * .8) or target_object.dy > (ss.FRAME_PIXELS_Y * .8):
+        return True
+    else:
+        return False
 
 if __name__ == "__main__":
     vehicle_state = None
