@@ -33,15 +33,15 @@ def list_A(tot_objects, num_file):
 
 def list_B(num_file):
     centroid = np.array([rd.randint(0,1280), rd.randint(0,720)])
-    if centroid[0] >= 576 and centroid[0] <= 704:
-        directionX = "Forward, "
-    elif centroid[0] < 576:
+    if int(centroid[0]) >= 615 and int(centroid[0]) <= 665:
+        directionX = "Centered, "
+    elif int(centroid[0]) < 615:
         directionX = "Left, "
     else:
         directionX = "Right, "
-    if centroid[0] >= 324 and centroid[0] <= 396:
-        directionY = "Forward"
-    elif centroid[0] < 324:
+    if int(centroid[1]) >= 335 and int(centroid[1]) <= 385:
+        directionY = "Centered"
+    elif int(centroid[1]) < 335:
         directionY = "Descend"
     else:
         directionY = "Ascend"
@@ -263,9 +263,9 @@ def list_E(num_tests):
         g.close()
 
 if __name__ == "__main__":
-    # for i in range(100):
+    for i in range(100):
     #     list_A(MAX_OBJECTS,i)
-    #     list_B(i)
+        list_B(i)
     #     list_C(MAX_OBJECTS,i)
-    list_D(50)
-    list_E(50)
+    # list_D(50)
+    # list_E(50)

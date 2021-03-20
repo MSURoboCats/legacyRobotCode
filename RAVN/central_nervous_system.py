@@ -78,17 +78,16 @@ def search(object_list):
     target_object = None
     while relevant_types:
         # print("Getting objects from CSV")
-        frame_objects = ss.get_objects()
         if target_object:
             # print("Target object already exists")
-            if check_target_in_frame():
+            if check_target_in_frame(object_list):
                 # print("Target is in frame")
                 if check_investigated():
                     # print("Marking object as investigated")
                     relevant_types.remove(target_object.type)
                     target_object = None
                 else:
-                    #print("Target is not yet investigated")
+                    #print("Target is not yet investigatobject_listed")
                     # get_movement_vector(target_object)
                     pass
                 return target_object.type
@@ -125,7 +124,7 @@ def enact_state(argument):
     action()
 
 def check_target_in_frame(object_list):     
-    for item in objects_in_frame:                    
+    for item in object_list:                    
         if item.type == target_object.type:
             return True
     return False

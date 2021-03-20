@@ -1,5 +1,6 @@
 import sensory_system as ss
 import central_nervous_system as cs
+import csv
 
 def test_1_1_1():
     filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List A/CurrentFile"
@@ -40,19 +41,52 @@ def test1():
         file1.writelines(L) 
         file1.close()
         print(i)
+def test2_1():
+    filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List B/"
+    for i in range(100):
+        ss.INPUT_FILE = filepath + "CurrentFile" + str(i) + ".csv"
+        cs.relevant_types = [1, 3 , 4 ,5 ,2 ,6]
+        objects_list = cs.VisualObject(0,0,0,0,0)
+        i = 0
+        with open(ss.INPUT_FILE, 'r') as frame:
+            frame_reader = csv.reader(frame)
+            for column in frame_reader:
+                if i == 0:
+                    objects_list.cx = float(column[0])
+                else:
+                    objects_list.cy = float(column[0])
+                i = i + 1
+        [rotation_component, depth_component] = cs.get_movement_vector(objects_list)
+        if rotation_component == 0:
+            L = "CENTERED "
+        elif rotation_component == 1:
+            L = "RIGHT "
+        elif rotation_component == -1:
+            L = "LEFT "
+        if depth_component == 0:
+            L = L + "CENTERED" + "\n"
+        elif depth_component == 1:
+            L = L + "ASCEND" + "\n"
+        elif depth_component == -1:
+             L = L + "DESCEND" + "\n"   
+        file1 = open("/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List B/Test2.txt", "a") 
+        file1.writelines(L) 
+        file1.close()
+
 def test3_2_1():
     test_amount = 50
     filepath = "/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/ListD/"
     file1 = open(filepath + "ResultsD.txt", "w")
     tests_passed = 0
     for i in range(test_amount):
+        cs.relevant_types = [1, 3 , 4 ,5 ,2 ,6]
         file1.writelines("#### Test " + str(i) + " ####\r")
         ss.INPUT_FILE = filepath + "CurrentFrame" + str(i) + ".csv"
         objects_in_frame = ss.get_objects().copy()
         while cs.relevant_types:
             objects_in_frame = ss.get_objects().copy()
             if cs.target_object:
-                if cs.check_target_in_frame():
+                if cs.check_target_in_frame(objects_in_frame):
                     if cs.check_investigated():
                         cs.relevant_types.remove(cs.target_object.type)
                         L = "(Actually Investigated) Chosen Object Type: " + str(cs.target_object.type) + "\r"
@@ -121,6 +155,7 @@ def test3():
     tests_passed = 0
     test_amount = 50
     for i in range(test_amount):
+        cs.relevant_types = [1, 3 , 4 ,5 ,2 ,6]
         file1.writelines("#### Test " + str(i) + " ####\r")
         ss.INPUT_FILE = "/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/ListE/CurrentFrame" + str(i) + ".csv"
         objects_in_frame = ss.get_objects().copy()
@@ -191,10 +226,11 @@ def test3():
             tests_passed += 1
             file1.writelines("All objects are investigated. Program exited.\r")
             file1.writelines("\r")
-        print(i)
+
 if __name__ == '__main__':
     # test_1_1_1()
     # test1_2_1()
     # test1()
     # test3_2_1()
-    test3()
+    # test3()
+    test2_1()
