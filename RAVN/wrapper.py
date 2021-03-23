@@ -73,6 +73,36 @@ def test2_1():
         file1.writelines(L) 
         file1.close()
 
+def test3_1_1():
+    filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List C/"
+    for i in range(50):
+        cs.relevant_types = [1, 3 , 4 ,5 ,2 ,6]
+        ss.INPUT_FILE = filepath + "CurrentFile" + str(i) + ".csv"
+        i = 0
+        with open(ss.INPUT_FILE, 'r') as frame:
+            frame_reader = csv.reader(frame)
+            for column in frame_reader:
+                if i == 0:
+                    obj = cs.VisualObject(0,0,0,0,float(column[0]))
+                    temp_view = [obj]
+                    seen_objs = [float(column[1])]
+                else:
+                    obj = cs.VisualObject(0,0,0,0,float(column[0]))
+                    temp_view.append(obj)
+                    if float(column[1]) == 0:
+                        pass
+                    else:
+                        seen_objs.append(float(column[1]))
+                i = i + 1
+        cs.relevant_types = [x for x in cs.relevant_types if x not in seen_objs]
+        print(temp_view)
+        target = cs.search(temp_view)
+        file1 = open("/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List C/Test1.txt", "a") 
+        L = str(target) + "\n"
+        file1.writelines(L) 
+        file1.close()
+
+
 def test3_2_1():
     test_amount = 50
     filepath = "/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/ListD/"
@@ -228,9 +258,10 @@ def test3():
             file1.writelines("\r")
 
 if __name__ == '__main__':
-    # test_1_1_1()
-    # test1_2_1()
-    # test1()
-    # test3_2_1()
-    # test3()
+    test_1_1_1()
+    test1_2_1()
+    test1()
+    test3_2_1()
+    test3()
     test2_1()
+    test3_1_1()

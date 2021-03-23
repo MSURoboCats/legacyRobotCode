@@ -100,12 +100,13 @@ def search(object_list):
             if target_object:
                 # print("Successfully aquired target")
                 # get_movement_vector(target_object)
-                pass
+                return target_object.type
             else:
                 # print("No potential target -- entering search state")
                 # search()
                 target_object = None
-            return target_object.type
+                return None
+            
         # print("")
 
 def investigate(target_info):

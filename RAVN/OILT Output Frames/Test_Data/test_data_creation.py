@@ -50,6 +50,7 @@ def list_B(num_file):
     L = directionX + directionY + "\n"
     file1.writelines(L) 
     file1.close()  
+
 def list_C(tot_objects,num_file): 
     x = rd.randint(3,tot_objects)
     y = rd.randint(1,x)
@@ -68,12 +69,18 @@ def list_C(tot_objects,num_file):
         classes.remove(obj_type)
     seen_list = current_view[0:y,1].tolist()
     in_view_list = current_view[:,0].tolist()
+    relevant_obj = CLASS_PRIORITY.copy()
+    relevant_obj = [float(x) for x in relevant_obj if x not in seen_list]
+    # print(in_view_list)
+    # print(relevant_obj)
     for a in range(len(in_view_list)):
-        if in_view_list[a] not in seen_list and CLASS_PRIORITY.index(in_view_list[a]) < highest_index:
+        if (in_view_list[a] in relevant_obj) and (relevant_obj.index(in_view_list[a]) < highest_index):
             highest_priority_obj = in_view_list[a]
-            highest_index = a
+            highest_index = relevant_obj.index(in_view_list[a])
     if highest_priority_obj == 999:
         highest_priority_obj = "Search"
+    # print(highest_priority_obj)
+    # print(highest_index)
     np.savetxt("/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List C/CurrentFile" + str(num_file) +".csv",current_view,delimiter=",")
     file1 = open("/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List C/ListC_ans.txt", "a") 
     L = str(highest_priority_obj) + "\n"
@@ -265,7 +272,7 @@ def list_E(num_tests):
 if __name__ == "__main__":
     for i in range(100):
     #     list_A(MAX_OBJECTS,i)
-        list_B(i)
-    #     list_C(MAX_OBJECTS,i)
+        # list_B(i)
+        list_C(MAX_OBJECTS,i)
     # list_D(50)
     # list_E(50)
