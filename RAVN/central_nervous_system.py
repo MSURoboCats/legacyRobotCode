@@ -100,7 +100,7 @@ def search(object_list):
             if target_object:
                 # print("Successfully aquired target")
                 # get_movement_vector(target_object)
-                return target_object.type
+                return target_object
             else:
                 # print("No potential target -- entering search state")
                 # search()

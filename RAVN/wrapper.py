@@ -20,7 +20,7 @@ def test1_2_1():
         target = cs.search(object_list)
         cs.relevant_types = [1, 3 , 4 ,5 ,2 ,6]
         file1 = open("/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List A/Test1_2_1.txt", "a") 
-        L = str(target) + "\n"
+        L = str(target.type) + "\n"
         file1.writelines(L) 
         file1.close()
         print(i)
@@ -37,7 +37,7 @@ def test1():
         object_list = ss.get_objects()
         target = cs.search(object_list)
         file1 = open("/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List A/Test1.txt", "a") 
-        L = str(target) + "\n"
+        L = str(target.type) + "\n"
         file1.writelines(L) 
         file1.close()
         print(i)
@@ -98,7 +98,7 @@ def test3_1_1():
         print(temp_view)
         target = cs.search(temp_view)
         file1 = open("/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List C/Test1.txt", "a") 
-        L = str(target) + "\n"
+        L = str(target.type) + "\n"
         file1.writelines(L) 
         file1.close()
 
@@ -257,11 +257,21 @@ def test3():
             file1.writelines("All objects are investigated. Program exited.\r")
             file1.writelines("\r")
 
+def full_test():
+    filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List A/CurrentFile"
+    ss.INPUT_FILE = filepath + "0.csv"
+    object_list = ss.get_objects()
+    target = cs.search(object_list)
+    cs.get_movement_vector(target)
 if __name__ == '__main__':
-    test_1_1_1()
-    test1_2_1()
-    test1()
-    test3_2_1()
-    test3()
-    test2_1()
-    test3_1_1()
+    # test_1_1_1()
+    # test1_2_1()
+    # test1()
+    # test3_2_1()
+    # test3()
+    # test2_1()
+    # test3_1_1()
+    start = time.time()
+    full_test()
+    end = time.time()
+    print(end - start)
