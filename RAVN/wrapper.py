@@ -286,4 +286,8 @@ if __name__ == '__main__':
         full_test(filepath,i)
         end = time.time()
         times[i] = end - start
-    print(times)
+    print("Min ",np.amin(times))
+    print("Max ",np.amax(times))
+    print("Mean ",np.mean(times))
+    print("STD ", np.std(times))
+    print("Median ", np.median(times))
