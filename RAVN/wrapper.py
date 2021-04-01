@@ -1,6 +1,8 @@
 import sensory_system as ss
 import central_nervous_system as cs
 import csv
+import time
+import numpy as np
 
 def test_1_1_1():
     filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List A/CurrentFile"
@@ -257,12 +259,18 @@ def test3():
             file1.writelines("All objects are investigated. Program exited.\r")
             file1.writelines("\r")
 
-def full_test():
-    filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List A/CurrentFile"
-    ss.INPUT_FILE = filepath + "0.csv"
+def full_test(filepath, i):
+    ss.INPUT_FILE = filepath + str(i) + ".csv"
     object_list = ss.get_objects()
     target = cs.search(object_list)
-    cs.get_movement_vector(target)
+    if target != None:
+        flag = cs.check_investigated(target)
+        if flag == False:
+            cs.get_movement_vector(target)
+        else:
+            print("Spin")
+    else:
+        print("Spin")
 if __name__ == '__main__':
     # test_1_1_1()
     # test1_2_1()
@@ -271,7 +279,35 @@ if __name__ == '__main__':
     # test3()
     # test2_1()
     # test3_1_1()
-    start = time.time()
-    full_test()
-    end = time.time()
-    print(end - start)
+    times = np.zeros(100)
+    filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List A/CurrentFile"
+    for i in range(100):
+        start = time.time()
+        full_test(filepath,i)
+        end = time.time()
+        times[i] = end - start
+    # filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/ListD/CurrentFrame"
+    # for i in range(50):
+    #     start = time.time()
+    #     full_test(filepath,i)
+    #     end = time.time()
+    #     times[i+100] = end - start
+    # filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/ListD/NextFrame"
+    # for i in range(50):
+    #     start = time.time()
+    #     full_test(filepath,i)
+    #     end = time.time()
+    #     times[i+150] = end - start
+    # filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/ListE/CurrentFrame"
+    # for i in range(50):
+    #     start = time.time()
+    #     full_test(filepath,i)
+    #     end = time.time()
+    #     times[i+200] = end - start
+    # filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/ListE/NextFrame"
+    # for i in range(50):
+    #     start = time.time()
+    #     full_test(filepath,i)
+    #     end = time.time()
+    #     times[i+250] = end - start  
+    print(times)

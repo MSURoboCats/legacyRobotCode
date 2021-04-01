@@ -90,7 +90,7 @@ def search(object_list):
                     #print("Target is not yet investigatobject_listed")
                     # get_movement_vector(target_object)
                     pass
-                return target_object.type
+                return target_object
             else:
                 # print("Target is NOT in frame -- Lost target object")
                 target_object = None
@@ -130,8 +130,8 @@ def check_target_in_frame(object_list):
             return True
     return False
 
-def check_investigated():
-    if target_object.dx > (ss.FRAME_PIXELS_X * .8) or target_object.dy > (ss.FRAME_PIXELS_Y * .8):
+def check_investigated(target):
+    if target.dx > (ss.FRAME_PIXELS_X * .8) or target.dy > (ss.FRAME_PIXELS_Y * .8):
         return True
     else:
         return False
