@@ -264,11 +264,7 @@ def full_test(filepath, i):
     object_list = ss.get_objects()
     target = cs.search(object_list)
     if target != None:
-        flag = cs.check_investigated(target)
-        if flag == False:
-            cs.get_movement_vector(target)
-        else:
-            print("Spin")
+        cs.get_movement_vector(target)
     else:
         print("Spin")
 if __name__ == '__main__':

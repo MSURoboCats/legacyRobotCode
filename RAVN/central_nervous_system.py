@@ -82,7 +82,7 @@ def search(object_list):
             # print("Target object already exists")
             if check_target_in_frame(object_list):
                 # print("Target is in frame")
-                if check_investigated():
+                if check_investigated(target_object):
                     # print("Marking object as investigated")
                     relevant_types.remove(target_object.type)
                     target_object = None
