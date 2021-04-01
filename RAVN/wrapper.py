@@ -279,35 +279,11 @@ if __name__ == '__main__':
     # test3()
     # test2_1()
     # test3_1_1()
-    times = np.zeros(100)
-    filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List A/CurrentFile"
-    for i in range(100):
+    times = np.zeros(1000)
+    filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List F/CurrentFile"
+    for i in range(1000):
         start = time.time()
         full_test(filepath,i)
         end = time.time()
         times[i] = end - start
-    # filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/ListD/CurrentFrame"
-    # for i in range(50):
-    #     start = time.time()
-    #     full_test(filepath,i)
-    #     end = time.time()
-    #     times[i+100] = end - start
-    # filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/ListD/NextFrame"
-    # for i in range(50):
-    #     start = time.time()
-    #     full_test(filepath,i)
-    #     end = time.time()
-    #     times[i+150] = end - start
-    # filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/ListE/CurrentFrame"
-    # for i in range(50):
-    #     start = time.time()
-    #     full_test(filepath,i)
-    #     end = time.time()
-    #     times[i+200] = end - start
-    # filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/ListE/NextFrame"
-    # for i in range(50):
-    #     start = time.time()
-    #     full_test(filepath,i)
-    #     end = time.time()
-    #     times[i+250] = end - start  
     print(times)
