@@ -273,8 +273,8 @@ def list_F(tot_objects, num_file):
     #Note: To meet the specification set in Verification Plan the total number of objects must be greater than or equal to 4
     highest_priority_obj = 999
     highest_index = 999
-    assert tot_objects >= 4, "Error: Total number of objects must be greater than or equal to 4"
-    rows = rd.randint(4,tot_objects)
+    assert tot_objects >= 1, "Error: Total number of objects must be greater than or equal to 4"
+    rows = rd.randint(1,tot_objects)
     current_view = np.empty([rows,5])
     classes = [*range(1,tot_objects+1)]
     for i in range(rows):
