@@ -1,7 +1,6 @@
 # Capstone team RAVN: 2020 - 2021
 # Members: Scott Smith, Kyle Rust, Tristan Stevens
 
-# For now, all copied from ControlsSub3.py
 import math
 import numpy as np
 import re
@@ -12,24 +11,55 @@ import time
 import central_nervous_system as cns
 import sensory_system as ss
 
+# Initialize constants ---------------------------------------------
 ARDUINO_BAUD = 9600
 ARDUINO_PORT = '/dev/ttyACM1'
 ARDUINO = serial.Serial(ARDUINO_PORT, ARDUINO_BAUD, timeout=5)
-
+DELTA = 1
+DEPTH_KD = .25286
+DEPTH_KP = 1.178
+MAX_THROTTLE_OUT = 1900
+MID_THROTTLE_OUT = 1500
+MIN_THROTTLE_OUT = 1100
 NUC_BAUD = 115200
 NUC_PORT = '/dev/ttyUSB0'
 NUC = serial.Serial(NUC_PORT, NUC_BAUD)
+PITCH_KD = .15406
+PITCH_KP = .3309
+ROLL_KD = .15406
+ROLL_KP = .3309
+YAW_KD = .25684
+YAW_KP = .58395
 
-#Initializes all the different manuver variables and defines a function to be used with them -ZW
-pitch = 0
-roll = 0
-yaw = 0
-pitchold = 0
-rollold = 0
-yawold = 0
-depthold = 0
-global depth
-depth = 0
+# Initialize variables ---------------------------------------------
+depth_error_n = 0
+depth_error_n_minus_1 = 0
+depth_n_minus_1 = 0
+depth_n = 0
+
+pitch_error_n = 0
+pitch_error_n_minus_1 = 0
+pitch_n = 0
+pitch_n_minus_1 = 0
+
+roll_error_n = 0
+roll_error_n_minus_1 = 0
+roll_n = 0
+roll_n_minus_1 = 0
+
+yaw_error_n = 0
+yaw_error_n_minus_1 = 0
+yaw_n = 0
+yaw_n_minus_1 = 0
+
+# Define functions -------------------------------------------------
+def bound_throttle_out(desired_throttle):
+    return max(min(MAX_THROTTLE_OUT, desired_throttle), MIN_THROTTLE_OUT)
+
+
+def normalize(desired_result):
+    return max(min(1, desired_result), -1)
+
 
 def quaternion_to_euler(data):
     yz2 = 1 - (2 * (data[1]**2 + data[2]**2))
@@ -51,140 +81,62 @@ def quaternion_to_euler(data):
     return [roll, pitch, yaw]
 
 
-
-def get_imu_data(command):
-    global ser
-
-    ser.write(command)
-    data = ser.readline()
+def update_imu_data():
+    mag = []    # w, x, y, z
+    NUC.write("$PSPA,QUAT\r\n")
+    data = NUC.readline()
     values = np.array(re.findall('([-\d.]+)', data)).astype(np.float)
-    return values
-
-yaw = 0
-
-#This function gets the data from the sensors to calibrate the roll, pitch, and a yaw to keep the sub oriented -ZW
-
-def updateSensors():
-    mag = [] # w, x, y, z
-    magnetometer = get_imu_data("$PSPA,QUAT\r\n")
+    magnetometer = values
     mag = [magnetometer[i] for i in range(4)]
-    global pitch,roll,yaw,yawold,pitchold,rollold
-    rollold = roll
-    pitchold = pitch
-    yawold = yaw
-    roll, pitch, yaw = quaternion_to_euler(mag)
-    return roll,pitch,yaw
-
-
-    
-
-
-
-yaw0 = updateSensors()[2]
-yawin = yaw0 + (math.pi * (input("Enter your Yaw (Degrees): ")/180))
-
-
-
-DELTA = input("Enter your DELTA: ")
-DELTA = .8
-depthin = input("Enter your Depth: ")
-deptherrorold = depthin - depthold
-deptherror = depthin - depth
-
-
-
+    roll_n, pitch_n, yaw_n = quaternion_to_euler(mag)
+    if(yaw_n > math.pi):
+        yaw_n = yaw_n - 2*math.pi
 
 
 #Looks to be a test to see what depth the sub is at -ZW
+def depth_func(desired_depth):
+    update_imu_data()
+    depth_error_n_minus_1 = depth_error_n
+    depth_error_n = desired_depth - depth_n
+    result = DEPTH_KP*depth_error_n + DEPTH_KD*((depth_error_n - depth_error_n_minus_1)/DELTA)
+    return normalize(result)
 
 
-def depthFunc():
-    result = (.25286*((deptherror - deptherrorold)/DELTA) + 1.178*deptherror)
-    if(result > 1):
-        result = 1
-    elif(result < -1):
-        result = -1
-    else:
-        result = result
-    return result
-
-print(depthFunc())
-
-#Below are functions which allow pitch, roll yaw for navigation -ZW
-
-def pitchFunc():
-    pitcherrorold = 0 - pitchold
-    pitcherror = 0 - pitch
-    result = (.3309*pitcherror + .15406*((pitcherror - pitcherrorold)/DELTA))
-    if(result > 1):
-        result = 1
-    elif(result < -1):
-        result = -1
-    else:
-        result = result
-    return result
-
-print(pitchFunc())
-
-rollerrorold = 0 - rollold
-pitcherror = 0 - roll
-
-def rollFunc():
-    rollerrorold = 0 - rollold
-    rollerror = 0 - roll
-    result = (.3309*rollerror + .15406*((rollerror - rollerrorold)/DELTA))
-    if(result > 1):
-        result = 1
-    elif(result < -1):
-        result = -1
-    else:
-        result = result
-    return result
-
-print(rollFunc())
+# Currently, pitch function should always act to maintain neutral pitch
+def pitch_func():
+    update_imu_data()
+    pitch_error_n_minus_1 = pitch_error_n
+    pitch_error_n = 0 - pitch_n
+    result = PITCH_KP*pitch_error_n + PITCH_KD*((pitch_error_n - pitch_error_n_minus_1)/DELTA)
+    return normalize(result)
 
 
+# Currently, roll function should always act to maintain neutral roll
+def roll_func():
+    update_imu_data()
+    roll_error_n_minus_1 = roll_error_n
+    roll_error_n = 0 - roll_n
+    result = ROLL_KP*roll_error_n + ROLL_KD*((roll_error_n - roll_error_n_minus_1)/DELTA)
+    return normalize(result)
 
-def yawFunc():
-    global yaw
-    if(yawin<=(math.pi/4)):
-        if(yaw>=(5*math.pi/4)):
-            yaw = yaw - 2*math.pi
-        else:
-            yaw = yaw
-    if(yawin>=(3*math.pi/2)):
-        if(yaw<=(3*math.pi/4)):
-            yaw = yaw + 2*math.pi
-        else:
-            yaw = yaw
 
-    print(yawin)
-    print(yaw)
-        
-    yawerrorold = yawin - yawold
-    yawerror = yawin - yaw
-    result = (.25684*((yawerror - yawerrorold)/DELTA) + .58395*yawerror)
-    if(result > 1):
-        result = 1
-    elif(result < -1):
-        result = -1
-    else:
-        result = result
-    return result
+def yaw_func(desired_yaw):
+    update_imu_data()
+    yaw_error_n_minus_1 = yaw_error_n
+    yaw_error_n = desired_yaw - yaw_n
+    result = YAW_KP*yaw_error_n + YAW_KD*((yaw_error_n - yaw_error_n_minus_1)/DELTA)
+    return normalize(result)
 
-print(yawFunc())
 
 #Here's the throttle control that uses what looks like 7 or 8 different speed settings, this might be useful to take a look at -ZW
-
 #Rudimentary Throttle Control
-
-def ThrottleOut():
-    T6 = depthFunc() + rollFunc() + pitchFunc()
-    T5 = -(depthFunc() + rollFunc() - pitchFunc())
-    T8 = -(depthFunc() - rollFunc() + pitchFunc())
-    T7 = depthFunc() - rollFunc() - pitchFunc()
-    T4 = 1500 #-1*yawFunc()
-    T3 = 1500 #yawFunc()
+def throttle_out(target_depth, target_yaw,):
+    T6 = depth_func(target_depth) + roll_func() + pitch_func()
+    T5 = -(depth_func(target_depth) + roll_func() - pitch_func())
+    T8 = -(depth_func(target_depth) - roll_func() + pitch_func())
+    T7 = depth_func(target_depth) - roll_func() - pitch_func()
+    T4 = -1*yaw_func(target_yaw)
+    T3 = yaw_func(target_yaw)
     T1 = 1500
     T2 = 1500
     if (T7 > 1):
@@ -231,7 +183,7 @@ def ThrottleOut():
 
     #print ("Values sent: ")
     #print(T1,T2,T3,T4,T5,T6,T7,T8)
-    ard.write(str.encode(str(T1))+" "+str.encode(str(T2))+" "+str.encode(str(T3))+" "+str.encode(str(T4))+" "+str.encode(str(T5))+" "+str.encode(str(T6))+" "+str.encode(str(T7))+" "+str.encode(str(T8))+" ")
+    ARDUINO.write(str.encode(str(T1))+" "+str.encode(str(T2))+" "+str.encode(str(T3))+" "+str.encode(str(T4))+" "+str.encode(str(T5))+" "+str.encode(str(T6))+" "+str.encode(str(T7))+" "+str.encode(str(T8))+" ")
     time.sleep(.1)
 
-    return T1,T2,T3,T4,T5,T6,T7,T8
+    return T1, T2, T3, T4, T5, T6, T7, T8

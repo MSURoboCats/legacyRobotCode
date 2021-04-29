@@ -8,6 +8,8 @@ import csv
 import central_nervous_system as cns
 #import motor_system as ms
 
+CAMERA_X_FOV_DEGREES = 65.6
+CAMERA_Y_FOV_DEGREES = 39.9
 INPUT_FILE = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List A/CurrentFrame0.csv"
 FRAME_PIXELS_X = 1280
 FRAME_PIXELS_Y = 720
