@@ -97,10 +97,13 @@ def test3_1_1():
                         seen_objs.append(float(column[1]))
                 i = i + 1
         cs.relevant_types = [x for x in cs.relevant_types if x not in seen_objs]
-        print(temp_view)
+        # print(temp_view)
         target = cs.search(temp_view)
         file1 = open("/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List C/Test1.txt", "a") 
-        L = str(target.type) + "\n"
+        if(target == None):
+            L = "Search" +"\n"
+        else:
+            L = str(target.type) + "\n"
         file1.writelines(L) 
         file1.close()
 
@@ -274,16 +277,16 @@ if __name__ == '__main__':
     # test3_2_1()
     # test3()
     # test2_1()
-    # test3_1_1()
-    times = np.zeros(1000)
-    filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List F/CurrentFile"
-    for i in range(1000):
-        start = time.time()
-        full_test(filepath,i)
-        end = time.time()
-        times[i] = end - start
-    print("Min ",np.amin(times))
-    print("Max ",np.amax(times))
-    print("Mean ",np.mean(times))
-    print("STD ", np.std(times))
-    print("Median ", np.median(times))
+    test3_1_1()
+    # times = np.zeros(1000)
+    # filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List F/CurrentFile"
+    # for i in range(1000):
+    #     start = time.time()
+    #     full_test(filepath,i)
+    #     end = time.time()
+    #     times[i] = end - start
+    # print("Min ",np.amin(times))
+    # print("Max ",np.amax(times))
+    # print("Mean ",np.mean(times))
+    # print("STD ", np.std(times))
+    # print("Median ", np.median(times))
