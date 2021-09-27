@@ -276,7 +276,7 @@ if __name__ == '__main__':
     # test2_1()
     # test3_1_1()
     times = np.zeros(1000)
-    filepath = "C:/Users/kyler/OneDrive/Documents/Capstone/robotCode/RAVN/OILT Output Frames/Test_Data/List F/CurrentFile"
+    filepath = "./OILT Output Frames/Test_Data/List F/CurrentFile"
     for i in range(1000):
         start = time.time()
         full_test(filepath,i)
