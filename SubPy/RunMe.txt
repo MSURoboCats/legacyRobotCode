@@ -1,0 +1,7 @@
+To Run ControlSubvX.py:
+Ensure that basic_test_2.ino is running on the arduino mega
+Connect to the sub via ssh
+Run python3 ControlSubvX.py in the folder containing it in the ssh terminal
+Head the warnings and follow the on screen prompts
+
+Current version: ControlSubv6.py

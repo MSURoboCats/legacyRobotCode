@@ -1,4 +1,4 @@
-
+###### getIMUdata and all references to global 'ser' commented out
 
 # Run with sudo
 
@@ -6,15 +6,15 @@ import sys, math, time, serial, re, numpy as np
 
 #seems to initialize 2 different ports and set the sleep time of the sub -ZW
 
-port = '/dev/ttyUSB0' # Intel Nuc
-port2 = '/dev/ttyACM1' #Arduino
-baud = 115200
+#port = '/dev/ttyUSB0' # Intel Nuc
+port2 = '/dev/ttyACM0' #Arduino
+#baud = 115200
 ard = serial.Serial(port2,9600,timeout=5)
-time.sleep(2)
-#time.sleep(300)
+#time.sleep(2)
+time.sleep(3)
 
-ser = serial.Serial(port, baud)
-ser.flush()
+#ser = serial.Serial(port2, baud)
+#ser.flush()
 
 #Initializes all the different manuver variables and defines a function to be used with them -ZW
 
@@ -49,11 +49,11 @@ def quaternion_to_euler(data):
 
 
 def get_imu_data(command):
-    global ser
-
-    ser.write(command)
-    data = ser.readline()
-    values = np.array(re.findall('([-\d.]+)', data)).astype(np.float)
+    #global ser
+    values = 0
+    #ser.write(command)
+    #data = ser.readline()
+    #values = np.array(re.findall('([-\d.]+)', data)).astype(np.float)
     return values
 
 yaw = 0
@@ -61,15 +61,16 @@ yaw = 0
 #This function gets the data from the sensors to calibrate the roll, pitch, and a yaw to keep the sub oriented -ZW
 
 def updateSensors():
-    mag = [] # w, x, y, z
-    magnetometer = get_imu_data("$PSPA,QUAT\r\n")
-    mag = [magnetometer[i] for i in range(4)]
-    global pitch,roll,yaw,yawold,pitchold,rollold
-    rollold = roll
-    pitchold = pitch
-    yawold = yaw
-    roll, pitch, yaw = quaternion_to_euler(mag)
-    return roll,pitch,yaw
+    #mag = [] # w, x, y, z
+    #magnetometer = get_imu_data("$PSPA,QUAT\r\n")
+    #mag = [magnetometer[i] for i in range(4)]
+    #global pitch,roll,yaw,yawold,pitchold,rollold
+    #rollold = roll
+    #pitchold = pitch
+    #yawold = yaw
+    #roll, pitch, yaw = quaternion_to_euler(mag)
+    #return roll,pitch,yaw
+    return 0,0,0
 
 
     

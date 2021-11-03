@@ -6,7 +6,7 @@ time.sleep(3)
 ard.flush()
 
 def main():
-	print("THIS PROGRAM IS NOT READ TO BE TESTED PLEASE SEE v4")
+	print("THIS PROGRAM IS NOT READY TO BE TESTED PLEASE SEE v4")
 
 	print("WARNING: once started the arduino will not stop until code finishes or power is removed")
 	entry = raw_input("start program? (y/n): ")
